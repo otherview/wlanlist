@@ -8,6 +8,7 @@ class PlotWifiHelper:
         self.table_data = []
         self.col_labels = []
         self.tableInfo = {}
+        self.cell_colors = []
         
     
     
@@ -25,6 +26,7 @@ class PlotWifiHelper:
             the_table = sub_plot.table(cellText=self.table_data,
                           colLabels=self.col_labels,
                           loc='center',
+                          cellColours=self.cell_colors
                           )
             the_table.auto_set_font_size(False)
             the_table.set_fontsize(9)
@@ -47,17 +49,22 @@ class PlotWifiHelper:
         
         
     def getTableData(self ):
+        
         for bssi in self.tableInfo:
             for position in self.tableInfo[bssi]:
-                print str(position[1])+" : "+str(self.tableInfo[bssi][position])
+                print str(bssi)+" - "+str(position[1])+" : "+str(self.tableInfo[bssi][position])
             top5Variance =sorted(self.tableInfo[bssi], key= self.tableInfo[bssi].__getitem__,
                                  reverse=True)[:3]
             
             if len(top5Variance)<3:
                 for count in range(0,3-len(top5Variance)):
                     top5Variance.append('nil')
+            colorRow =[]
+            for newCount in range(0,3):
+                colorRow.append("red")   
             self.table_data.append(top5Variance)
             self.col_labels.append(bssi)
+            self.cell_colors.append(colorRow)
 
         
     
